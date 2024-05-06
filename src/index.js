@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
-app.use(express.json());
-const conn = require("../db/conn");
+const conn = require("./conn");
 const port = 3000;
 
 app.get("/", (req, res) => {

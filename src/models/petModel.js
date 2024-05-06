@@ -1,0 +1,31 @@
+const { Sequelize } = require("sequelize");
+const db = require("./conn");
+
+const Pet = database.define("pet", {
+  id: {
+    type: Sequelize.INTEGER,
+    autoIncrement: true,
+    allowNull: false,
+    primaryKey: true,
+  },
+  name: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  species: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  carry: {
+    type: Sequelize.STRING,
+    allowNull: false,
+  },
+  weight: {
+    type: Sequelize.FLOAT,
+    allowNull: false,
+  },
+  date_of_birth: {
+    type: Sequelize.TIMESTAMP,
+    allowNull: false,
+  },
+});

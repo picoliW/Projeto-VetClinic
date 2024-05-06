@@ -1,5 +1,7 @@
 import { Router } from "express";
-import controller from "../controller/controller";
+import tutorController from "../controller/tutorController";
 const router = Router();
+
+router.get("/clients", tutorController.findAll);
 
 export default router;
