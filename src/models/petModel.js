@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
-const db = require("./conn");
+const db = require("../conn");
 
-const Pet = database.define("pet", {
+const Pet = db.define("Pet", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,
@@ -29,3 +29,5 @@ const Pet = database.define("pet", {
     allowNull: false,
   },
 });
+
+module.exports = Pet;

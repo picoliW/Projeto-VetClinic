@@ -1,31 +1,33 @@
-const { Sequelize } = require("sequelize");
-const db = require("./conn");
+const { DataTypes } = require("sequelize");
+const db = require("../conn");
 
-const Tutors = database.define("tutors", {
+const Tutors = db.define("Tutors", {
   id: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     autoIncrement: true,
     allowNull: false,
     primaryKey: true,
   },
   name: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   phone: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   email: {
-    type: Sequelize.STRING,
+    type: DataTypes.STRING,
     allowNull: false,
   },
   date_of_birth: {
-    type: Sequelize.TIMESTAMP,
+    type: DataTypes.DATE,
     allowNull: false,
   },
   zip_code: {
-    type: Sequelize.INTEGER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
 });
+
+module.exports = Tutors;

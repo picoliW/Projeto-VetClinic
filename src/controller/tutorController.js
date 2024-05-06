@@ -1,8 +1,10 @@
-import TutorRepository from "../models/tutorModel.js";
+const TutorRepository = require("../models/tutorModel");
 
 async function findAll(req, res) {
+  console.log("clients");
   const clients = await TutorRepository.findAll();
+
   res.json(clients);
 }
 
-export default { findAll };
+module.exports = findAll;
