@@ -1,10 +1,14 @@
-const TutorRepository = require("../models/tutorModel");
+const TutorServices = require("../services/tutorServices");
 
-async function findAll(req, res) {
-  console.log("clients");
-  const clients = await TutorRepository.findAll();
+class tutorController {
+  tutorServices = new TutorServices();
 
-  res.json(clients);
+  constructor() {}
+
+  getTutors = async (req, res) => {
+    const tutors = await this.tutorServices.getTutors();
+    res.json(tutors);
+  };
 }
 
-module.exports = findAll;
+module.exports = tutorController;

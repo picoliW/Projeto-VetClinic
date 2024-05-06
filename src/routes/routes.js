@@ -1,7 +1,9 @@
 const express = require("express");
-const tutorController = require("../controller/tutorController");
+const TutorController = require("../controller/tutorController");
 const router = express.Router();
 
-router.get("/tutors", tutorController);
+const tutorController = new TutorController();
+
+router.get("/tutors", tutorController.getTutors);
 
 module.exports = router;
