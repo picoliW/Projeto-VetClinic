@@ -1,7 +1,7 @@
 const { Sequelize } = require("sequelize");
 const db = require("../conn");
 
-const Pet = db.define("Pet", {
+Pet = db.define("Pet", {
   id: {
     type: Sequelize.INTEGER,
     autoIncrement: true,

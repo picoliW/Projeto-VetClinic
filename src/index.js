@@ -4,7 +4,7 @@ const conn = require("./conn");
 const port = 3000;
 const routes = require("./routes/routes");
 
-// Faz com que consigo pegar o corpo da requisição
+// Faz com que consiga pegar o corpo da requisição
 app.use(express.json());
 
 // Rota de teste
