@@ -8,8 +8,10 @@ const tutorController = new TutorController();
 
 // Define as rotas
 router.get("/tutors", tutorController.getTutors);
-router.post("/tutor", tutorController.setTutors);
-router.put("/tutor/:id", tutorController.updateTutors);
+router.post("/tutor", tutorController.setTutor);
+router.put("/tutor/:id", tutorController.updateTutor);
 router.delete("/tutor/:id", tutorController.deleteTutor);
+router.post("/pet/:tutorid", tutorController.setPet);
+router.put("/pet/:petid/tutor/:tutorid", tutorController.updatePet);
 
 module.exports = router;

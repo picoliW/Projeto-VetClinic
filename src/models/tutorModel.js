@@ -1,6 +1,7 @@
 // Importa o DataTypes que é um módulo do sequelize que pega os tipos de dados
 const { DataTypes } = require("sequelize");
 const db = require("../conn");
+const Pet = require("./petModel");
 
 // Cria modelo da tabela tutors
 Tutors = db.define(
@@ -17,7 +18,7 @@ Tutors = db.define(
       allowNull: false,
     },
     phone: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
     email: {
@@ -29,7 +30,7 @@ Tutors = db.define(
       allowNull: false,
     },
     zip_code: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
     },
   },
@@ -40,5 +41,7 @@ Tutors = db.define(
     timestamps: true,
   }
 );
+
+Tutors.hasMany(Pet, { as: "pets" });
 
 module.exports = Tutors;

@@ -1,5 +1,6 @@
 const { raw } = require("express");
 const Tutor = require("../models/tutorModel");
+const Pet = require("../models/petModel");
 
 class tutorController {
   constructor() {}
@@ -18,7 +19,7 @@ class tutorController {
   };
 
   // Cria um tutor
-  setTutors = async (req, res) => {
+  setTutor = async (req, res) => {
     try {
       // Pega o corpo da requisição
       const tutorData = req.body;
@@ -35,7 +36,7 @@ class tutorController {
   };
 
   // Atualiza um tutor existente
-  updateTutors = async (req, res) => {
+  updateTutor = async (req, res) => {
     try {
       // Pega o id que será passado na URL
       const id = req.params.id;
@@ -64,6 +65,40 @@ class tutorController {
       res.status(200).json(delTutor);
     } catch (err) {
       console.log(err, "User not found");
+    }
+  };
+
+  setPet = async (req, res) => {
+    try {
+      const petData = req.body;
+      const tutorId = req.params.tutorid;
+      petData.TutorId = tutorId;
+      const newPet = await Pet.create(petData);
+      console.log(petData);
+      res.json(newPet);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  updatePet = async (req, res) => {
+    const petData = req.body;
+    const tutorId = req.params.tutorid;
+    const petId = req.params.petid;
+
+    try {
+      const newPet = await Pet.update(petData, {
+        where: { id: petId, TutorId: tutorId },
+      });
+      const pets = await Pet.findOne({ raw: true, where: { id: petId } });
+      if (newPet == 1) {
+        console.log(pets);
+      } else {
+        console.log("Not found");
+      }
+      res.send(newPet);
+    } catch (err) {
+      console.log(err);
     }
   };
 }
