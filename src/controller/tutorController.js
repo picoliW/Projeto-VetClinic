@@ -1,13 +1,36 @@
-const TutorServices = require("../services/tutorServices");
+const Tutor = require("../models/tutorModel");
 
 class tutorController {
-  tutorServices = new TutorServices();
-
   constructor() {}
 
   getTutors = async (req, res) => {
-    const tutors = await this.tutorServices.getTutors();
-    res.json(tutors);
+    try {
+      const tutors = await Tutor.findAll();
+      res.json(tutors);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  setTutors = async (req, res) => {
+    try {
+      const tutorData = req.body;
+      const newTutor = await Tutor.create(tutorData);
+      res.json(newTutor);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  updateTutors = async (req, res) => {
+    try {
+      const id = req.params.id;
+      const tutorData = req.body;
+      const newTutor = await Tutor.update(tutorData, { where: { id: id } });
+      res.json(newTutor);
+    } catch (err) {
+      console.error(err);
+    }
   };
 }
 

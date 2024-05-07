@@ -4,6 +4,14 @@ const conn = require("./conn");
 const port = 3000;
 const routes = require("./routes/routes");
 
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
+
+app.use(express.json());
+
 app.get("/", (req, res) => {
   return res.send("Hello world");
 });
@@ -11,6 +19,7 @@ app.get("/", (req, res) => {
 app.use("/", routes);
 
 conn
+  //.sync({ force: true })
   .sync()
   .then(() => {
     app.listen(port, () => {
