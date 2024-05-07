@@ -1,6 +1,8 @@
+// Importa o DataTypes que é um módulo do sequelize que pega os tipos de dados
 const { DataTypes } = require("sequelize");
 const db = require("../conn");
 
+// Cria modelo da tabela tutors
 Tutors = db.define("Tutors", {
   id: {
     type: DataTypes.INTEGER,
