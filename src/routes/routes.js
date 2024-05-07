@@ -13,5 +13,6 @@ router.put("/tutor/:id", tutorController.updateTutor);
 router.delete("/tutor/:id", tutorController.deleteTutor);
 router.post("/pet/:tutorid", tutorController.setPet);
 router.put("/pet/:petid/tutor/:tutorid", tutorController.updatePet);
+router.delete("/pet/:petid/tutor/:tutorid", tutorController.deletePet);
 
 module.exports = router;

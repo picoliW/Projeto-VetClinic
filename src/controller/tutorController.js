@@ -10,7 +10,8 @@ class tutorController {
     try {
       // Usa o raw : true para mostrar só o necessário
       const tutors = await Tutor.findAll({ raw: true });
-      console.log(tutors);
+      const pets = await Pet.findAll({ raw: true });
+      const tutoraWithPets = console.log(tutors, pets);
       // Envia a resposta HTTP em json, sem colocar fica com load infinito no postman
       res.json(tutors);
     } catch (err) {
@@ -43,7 +44,6 @@ class tutorController {
       const tutorData = req.body;
       // Atualiza o tutor baseado no id que foi passado pela URL
       const newTutor = await Tutor.update(tutorData, { where: { id: id } });
-      const tutors = await Tutor.findOne({ raw: true, where: { id: id } });
       // Caso o tutor exista da o console log nele atualizado
       if (newTutor == 1) {
         console.log(tutors);
@@ -64,10 +64,11 @@ class tutorController {
       console.log("Status code", res.statusCode);
       res.status(200).json(delTutor);
     } catch (err) {
-      console.log(err, "User not found");
+      console.log(err, "Tutor not found");
     }
   };
 
+  // Cria um pet vinculado a um tutor
   setPet = async (req, res) => {
     try {
       const petData = req.body;
@@ -81,6 +82,7 @@ class tutorController {
     }
   };
 
+  // Atualiza um pet de um tutor específico
   updatePet = async (req, res) => {
     const petData = req.body;
     const tutorId = req.params.tutorid;
@@ -100,6 +102,18 @@ class tutorController {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  deletePet = async (req, res) => {
+    const petData = req.body;
+    const tutorId = req.params.tutorid;
+    const petId = req.params.petid;
+    const delPet = await Pet.destroy({
+      where: { id: petId, TutorId: tutorId },
+    });
+
+    console.log("Status code", res.statusCode);
+    res.status(200).json(delPet);
   };
 }
 
