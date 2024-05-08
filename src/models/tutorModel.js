@@ -35,8 +35,9 @@ Tutors = db.define(
     },
   },
   {
-    //Habilita o soft delete
+    // Habilita o soft delete
     paranoid: true,
+    // Coloca o nome como destroyTime para melhor entedimento
     deletedAt: "destroyTime",
     timestamps: true,
   }

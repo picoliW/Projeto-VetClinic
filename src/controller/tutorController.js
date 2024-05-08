@@ -1,22 +1,25 @@
 const Tutor = require("../models/tutorModel");
 const Pet = require("../models/petModel");
+const TutorServices = require("../services/tutorServices");
 
 class tutorController {
   constructor() {}
 
+  tutorServices = new TutorServices();
   getTutors = async (req, res) => {
     try {
       const tutors = await Tutor.findAll({ raw: true });
       const pets = await Pet.findAll({ raw: true });
 
-      // Cria um objeto vazio para armazenar os pets organizados por TutorId
-      const petsByTutorId = {};
       if (tutors.length === 0) {
         console.log("no tutor registered yet");
         return res.json();
       }
 
-      // Itera sobre o array de pets para organizá-los por TutorId
+      // Cria um objeto vazio para armazenar os pets organizados por TutorId
+      const petsByTutorId = {};
+
+      // Itera sobre o array de pets para organizar por TutorId
       pets.forEach((pet) => {
         // Se não houver um array de pets para o TutorId atual
         if (!petsByTutorId[pet.TutorId]) {
@@ -33,7 +36,7 @@ class tutorController {
         tutor.pets = petsByTutorId[tutor.id];
       });
 
-      // .dir para e depth null para mostrar o objeto inteiro
+      // .dir e depth null para mostrar o objeto inteiro
       console.dir(tutors, { depth: null });
 
       res.json(tutors);
@@ -47,6 +50,21 @@ class tutorController {
     try {
       // Pega o corpo da requisição
       const tutorData = req.body;
+      const requiredFields = [
+        "name",
+        "phone",
+        "email",
+        "date_of_birth",
+        "zip_code",
+      ];
+
+      // Verifica se todos os campos necessários estão presentes
+      if (!this.tutorServices.validateFields(tutorData, requiredFields)) {
+        return res
+          .status(400)
+          .json({ message: "Todos os campos são obrigatórios" });
+      }
+
       const newTutor = await Tutor.create(tutorData);
       const consoleNewTutor = await Tutor.findOne({
         raw: true,
@@ -65,6 +83,20 @@ class tutorController {
       // Pega o id que será passado na URL
       const id = req.params.id;
       const tutorData = req.body;
+      const requiredFields = [
+        "name",
+        "phone",
+        "email",
+        "date_of_birth",
+        "zip_code",
+      ];
+
+      // Verifica se todos os campos necessários estão presentes
+      if (!this.tutorServices.validateFields(tutorData, requiredFields)) {
+        return res
+          .status(400)
+          .json({ message: "Todos os campos são obrigatórios" });
+      }
       // Atualiza o tutor baseado no id que foi passado pela URL
       const newTutor = await Tutor.update(tutorData, { where: { id: id } });
       const tutors = await Tutor.findOne({ raw: true, where: { id: id } });
