@@ -9,6 +9,8 @@ const dbStorage = process.env.DB_STORAGE;
 const sequelize = new Sequelize({
   storage: dbStorage,
   dialect: dbDialect,
+  // Não exibe as consultas
+  logging: false,
 });
 
 module.exports = sequelize;

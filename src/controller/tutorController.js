@@ -1,18 +1,41 @@
-const { raw } = require("express");
 const Tutor = require("../models/tutorModel");
 const Pet = require("../models/petModel");
 
 class tutorController {
   constructor() {}
 
-  // Lista todos tutors
   getTutors = async (req, res) => {
     try {
-      // Usa o raw : true para mostrar só o necessário
       const tutors = await Tutor.findAll({ raw: true });
       const pets = await Pet.findAll({ raw: true });
-      const tutoraWithPets = console.log(tutors, pets);
-      // Envia a resposta HTTP em json, sem colocar fica com load infinito no postman
+
+      // Cria um objeto vazio para armazenar os pets organizados por TutorId
+      const petsByTutorId = {};
+      if (tutors.length === 0) {
+        console.log("no tutor registered yet");
+        return res.json();
+      }
+
+      // Itera sobre o array de pets para organizá-los por TutorId
+      pets.forEach((pet) => {
+        // Se não houver um array de pets para o TutorId atual
+        if (!petsByTutorId[pet.TutorId]) {
+          // Cria um novo array vazio para esse TutorId
+          petsByTutorId[pet.TutorId] = [];
+        }
+        // Adiciona o pet ao array correspondente ao TutorId
+        petsByTutorId[pet.TutorId].push(pet);
+      });
+
+      // Adiciona os pets correspondentes a cada tutor no array de tutores
+      tutors.forEach((tutor) => {
+        // Atribui o array de pets ao tutor
+        tutor.pets = petsByTutorId[tutor.id];
+      });
+
+      // .dir para e depth null para mostrar o objeto inteiro
+      console.dir(tutors, { depth: null });
+
       res.json(tutors);
     } catch (err) {
       console.log(err);
@@ -44,9 +67,10 @@ class tutorController {
       const tutorData = req.body;
       // Atualiza o tutor baseado no id que foi passado pela URL
       const newTutor = await Tutor.update(tutorData, { where: { id: id } });
+      const tutors = await Tutor.findOne({ raw: true, where: { id: id } });
       // Caso o tutor exista da o console log nele atualizado
       if (newTutor == 1) {
-        console.log(tutors);
+        console.log("Tutor updated");
       } else {
         console.log("Tutor not found");
       }
@@ -70,9 +94,17 @@ class tutorController {
 
   // Cria um pet vinculado a um tutor
   setPet = async (req, res) => {
+    const tutorId = req.params.tutorid;
     try {
+      const tutor = await Tutor.findByPk(tutorId);
+
+      if (!tutor) {
+        console.log("Tutor not found");
+        // Termina a requsição se não houver um tutor
+        return res.json();
+      }
       const petData = req.body;
-      const tutorId = req.params.tutorid;
+
       petData.TutorId = tutorId;
       const newPet = await Pet.create(petData);
       console.log(petData);
@@ -87,16 +119,18 @@ class tutorController {
     const petData = req.body;
     const tutorId = req.params.tutorid;
     const petId = req.params.petid;
-
+    const tutor = await Tutor.findByPk(tutorId);
     try {
       const newPet = await Pet.update(petData, {
         where: { id: petId, TutorId: tutorId },
       });
-      const pets = await Pet.findOne({ raw: true, where: { id: petId } });
-      if (newPet == 1) {
-        console.log(pets);
-      } else {
+      // No Pet.update(), retorna um array onde o primeiro elemento[0] é o número de linhas que foram atualizadas no banco de dados
+      // Nesse caso aqui se o valor de linhas atualizadas for 0 significa que o pet não foi encontrado
+      if (!tutor || newPet[0] === 0) {
         console.log("Not found");
+        return res.json();
+      } else {
+        console.log("Pet updated");
       }
       res.send(newPet);
     } catch (err) {
@@ -105,15 +139,18 @@ class tutorController {
   };
 
   deletePet = async (req, res) => {
-    const petData = req.body;
     const tutorId = req.params.tutorid;
     const petId = req.params.petid;
     const delPet = await Pet.destroy({
       where: { id: petId, TutorId: tutorId },
     });
-
-    console.log("Status code", res.statusCode);
-    res.status(200).json(delPet);
+    if (delPet == 0) {
+      console.log("Not found");
+      res.json();
+    } else {
+      console.log("Status code", res.statusCode);
+      res.status(200).json(delPet);
+    }
   };
 }
 

@@ -3,7 +3,7 @@ const TutorController = require("../controller/tutorController");
 // Utiliza a classe router do express para criar as rotas
 const router = express.Router();
 
-// Instancia tutorController
+// Instancia o controlador
 const tutorController = new TutorController();
 
 // Define as rotas
