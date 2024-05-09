@@ -19,7 +19,6 @@ class tutorController {
       // Cria um objeto vazio para armazenar os pets organizados por TutorId
       const petsByTutorId = {};
 
-      // Itera sobre o array de pets para organizar por TutorId
       pets.forEach((pet) => {
         // Se não houver um array de pets para o TutorId atual
         if (!petsByTutorId[pet.TutorId]) {
