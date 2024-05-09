@@ -60,9 +60,7 @@ class tutorController {
 
       // Verifica se todos os campos necessários estão presentes
       if (!this.tutorServices.validateFields(tutorData, requiredFields)) {
-        return res
-          .status(400)
-          .json({ message: "Todos os campos são obrigatórios" });
+        return res.status(400).json();
       }
 
       const newTutor = await Tutor.create(tutorData);
@@ -91,11 +89,8 @@ class tutorController {
         "zip_code",
       ];
 
-      // Verifica se todos os campos necessários estão presentes
       if (!this.tutorServices.validateFields(tutorData, requiredFields)) {
-        return res
-          .status(400)
-          .json({ message: "Todos os campos são obrigatórios" });
+        return res.status(400).json();
       }
       // Atualiza o tutor baseado no id que foi passado pela URL
       const newTutor = await Tutor.update(tutorData, { where: { id: id } });
@@ -137,6 +132,18 @@ class tutorController {
       }
       const petData = req.body;
 
+      const requiredFields = [
+        "name",
+        "species",
+        "carry",
+        "weight",
+        "date_of_birth",
+      ];
+
+      if (!this.tutorServices.validateFields(petData, requiredFields)) {
+        return res.status(400).json();
+      }
+
       petData.TutorId = tutorId;
       const newPet = await Pet.create(petData);
       console.log(petData);
@@ -153,10 +160,21 @@ class tutorController {
     const petId = req.params.petid;
     const tutor = await Tutor.findByPk(tutorId);
     try {
+      const requiredFields = [
+        "name",
+        "species",
+        "carry",
+        "weight",
+        "date_of_birth",
+      ];
+
+      if (!this.tutorServices.validateFields(petData, requiredFields)) {
+        return res.status(400).json();
+      }
       const newPet = await Pet.update(petData, {
         where: { id: petId, TutorId: tutorId },
       });
-      // No Pet.update(), retorna um array onde o primeiro elemento[0] é o número de linhas que foram atualizadas no banco de dados
+      // O update(), retorna um array onde o primeiro elemento[0] é o número de linhas que foram atualizadas no banco de dados
       // Nesse caso aqui se o valor de linhas atualizadas for 0 significa que o pet não foi encontrado
       if (!tutor || newPet[0] === 0) {
         console.log("Not found");

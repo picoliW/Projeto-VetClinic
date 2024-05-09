@@ -43,6 +43,7 @@ Tutors = db.define(
   }
 );
 
+// Define que cada instância de Tutor pode ter vários Pets
 Tutors.hasMany(Pet, { as: "pets" });
 
 module.exports = Tutors;
