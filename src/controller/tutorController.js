@@ -201,6 +201,10 @@ class tutorController {
       res.status(200).json(delPet);
     }
   };
+
+  getSwagger = async (req, res) => {
+    res.sendFile("swagger-docs/index.html", { root: "./" });
+  };
 }
 
 module.exports = tutorController;

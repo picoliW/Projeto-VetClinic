@@ -14,5 +14,6 @@ router.delete("/tutor/:id", tutorController.deleteTutor);
 router.post("/pet/:tutorid", tutorController.setPet);
 router.put("/pet/:petid/tutor/:tutorid", tutorController.updatePet);
 router.delete("/pet/:petid/tutor/:tutorid", tutorController.deletePet);
+router.get("/docs/swagger", tutorController.getSwagger);
 
 module.exports = router;
