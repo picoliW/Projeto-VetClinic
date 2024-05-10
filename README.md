@@ -31,6 +31,10 @@ Before you begin, ensure you have the following installed on your machine:
 
 This will run the application server.
 
+# For the unit tests you can run
+
+    npm test
+
 # Testing
 
 ##### Open postman and follow the steps below
@@ -48,3 +52,13 @@ This will run the application server.
 2. Select JSON
 3. Send
    ![TestPostPut](https://i.imgur.com/ILy6an4.png)
+
+# Dados .env
+
+    DB_USER =
+    DB_PASS =
+    DB_NAME = vetclinic
+    DB_HOST =
+    DB_PORT =
+    DB_DIALECT = sqlite
+    DB_STORAGE = database/vetclinic.sqlite
