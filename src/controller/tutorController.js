@@ -62,6 +62,24 @@ class tutorController {
         return res.status(400).json();
       }
 
+      // Validação do phone
+      if (!this.tutorServices.isValidPhone(tutorData.phone)) {
+        console.log("Invalid phone, example format: 11999999999");
+        return res.json();
+      }
+
+      // Validação do e-mail
+      if (!this.tutorServices.isValidEmail(tutorData.email)) {
+        console.log("Invalid E-mail, example format: email@email.com");
+        return res.json();
+      }
+
+      // Validação do zip code
+      if (!this.tutorServices.isValidZipCode(tutorData.zip_code)) {
+        console.log("Invalid zip-code, example format: 00000-000");
+        return res.json();
+      }
+
       const newTutor = await Tutor.create(tutorData);
       const consoleNewTutor = await Tutor.findOne({
         raw: true,

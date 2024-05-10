@@ -11,6 +11,24 @@ class TutorServices {
     }
     return true;
   };
+
+  // Função para validar o phone
+  isValidPhone = (phone) => {
+    const phoneRegex = /^[0-9]{11}$/;
+    return phoneRegex.test(phone);
+  };
+
+  // Função para validar o e-mail
+  isValidEmail = (email) => {
+    const emailRegex = /@.*\./;
+    return emailRegex.test(email);
+  };
+
+  // Função para validar o zip code
+  isValidZipCode = (zipCode) => {
+    const zipCodeRegex = /^[0-9]{5}-[0-9]{3}$/;
+    return zipCodeRegex.test(zipCode);
+  };
 }
 
 module.exports = TutorServices;
