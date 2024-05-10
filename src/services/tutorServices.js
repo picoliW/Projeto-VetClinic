@@ -29,6 +29,14 @@ class TutorServices {
     const zipCodeRegex = /^[0-9]{5}-[0-9]{3}$/;
     return zipCodeRegex.test(zipCode);
   };
+
+  isWeightNumber = (weight) => {
+    if (!Number(weight)) {
+      console.log("Weight must be a number");
+      return true;
+    }
+    return false;
+  };
 }
 
 module.exports = TutorServices;

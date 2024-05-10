@@ -109,6 +109,24 @@ class tutorController {
       if (!this.tutorServices.validateFields(tutorData, requiredFields)) {
         return res.status(400).json();
       }
+
+      // Validação do phone
+      if (!this.tutorServices.isValidPhone(tutorData.phone)) {
+        console.log("Invalid phone, example format: 11999999999");
+        return res.json();
+      }
+
+      // Validação do e-mail
+      if (!this.tutorServices.isValidEmail(tutorData.email)) {
+        console.log("Invalid E-mail, example format: email@email.com");
+        return res.json();
+      }
+
+      // Validação do zip code
+      if (!this.tutorServices.isValidZipCode(tutorData.zip_code)) {
+        console.log("Invalid zip-code, example format: 00000-000");
+        return res.json();
+      }
       // Atualiza o tutor baseado no id que foi passado pela URL
       const newTutor = await Tutor.update(tutorData, { where: { id: id } });
       const tutors = await Tutor.findOne({ raw: true, where: { id: id } });
@@ -161,6 +179,10 @@ class tutorController {
         return res.status(400).json();
       }
 
+      if (this.tutorServices.isWeightNumber(petData.weight)) {
+        return res.status(400).json();
+      }
+
       petData.TutorId = tutorId;
       const newPet = await Pet.create(petData);
       console.log(petData);
@@ -188,6 +210,11 @@ class tutorController {
       if (!this.tutorServices.validateFields(petData, requiredFields)) {
         return res.status(400).json();
       }
+
+      if (this.tutorServices.isWeightNumber(petData.weight)) {
+        return res.status(400).json();
+      }
+
       const newPet = await Pet.update(petData, {
         where: { id: petId, TutorId: tutorId },
       });
