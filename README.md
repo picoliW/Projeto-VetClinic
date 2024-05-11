@@ -31,11 +31,16 @@ Before you begin, ensure you have the following installed on your machine:
 
 This will run the application server.
 
-# For the unit tests you can run
+## API documentation
+
+You can see the API documentation by typing the following URL into your browser:
+http://localhost:3000/docs/swagger
+
+## For the unit tests you can run
 
     npm test
 
-# Testing
+## Testing
 
 ##### Open postman and follow the steps below
 
