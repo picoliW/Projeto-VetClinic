@@ -1,3 +1,5 @@
+const Tutor = require("../models/tutorModel");
+
 class TutorServices {
   constructor() {}
   // Valida os campos obrigatórios
@@ -30,6 +32,7 @@ class TutorServices {
     return zipCodeRegex.test(zipCode);
   };
 
+  // Função para validar se o peso é um número
   isWeightNumber = (weight) => {
     if (!Number(weight)) {
       console.log("Weight must be a number");
@@ -37,6 +40,14 @@ class TutorServices {
     }
     return false;
   };
+
+  // Função para validar se o tutor já existe
+  async isEmailOrPhoneUnique(email, phone) {
+    const tutorWithEmail = await Tutor.findOne({ where: { email } });
+    const tutorWithPhone = await Tutor.findOne({ where: { phone } });
+
+    return !tutorWithEmail && !tutorWithPhone;
+  }
 }
 
 module.exports = TutorServices;

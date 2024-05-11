@@ -31,8 +31,13 @@ class tutorController {
 
       // Adiciona os pets correspondentes a cada tutor no array de tutores
       tutors.forEach((tutor) => {
-        // Atribui o array de pets ao tutor
-        tutor.pets = petsByTutorId[tutor.id];
+        // Verifica se há pets vinculados ao tutor
+        if (petsByTutorId[tutor.id]) {
+          // Atribui o array de pets ao tutor
+          tutor.pets = petsByTutorId[tutor.id];
+        } else {
+          tutor.pets = "No pets linked";
+        }
       });
 
       // .dir e depth null para mostrar o objeto inteiro
@@ -77,6 +82,16 @@ class tutorController {
       // Validação do zip code
       if (!this.tutorServices.isValidZipCode(tutorData.zip_code)) {
         console.log("Invalid zip-code, example format: 00000-000");
+        return res.json();
+      }
+
+      if (
+        !(await this.tutorServices.isEmailOrPhoneUnique(
+          tutorData.email,
+          tutorData.phone
+        ))
+      ) {
+        console.log("Email or phone already exists");
         return res.json();
       }
 
@@ -147,6 +162,10 @@ class tutorController {
     try {
       const id = req.params.id;
       const delTutor = await Tutor.destroy({ where: { id: id } });
+      if (delTutor == 0) {
+        console.log("Tutor not found");
+        return res.json();
+      }
       console.log("Status code", res.statusCode);
       res.status(200).json(delTutor);
     } catch (err) {

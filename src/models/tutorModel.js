@@ -40,6 +40,8 @@ Tutors = db.define(
     // Coloca o nome como destroyTime para melhor entedimento
     deletedAt: "destroyTime",
     timestamps: true,
+    // Desativa a conversão de fuso horário
+    timezone: false,
   }
 );
 
